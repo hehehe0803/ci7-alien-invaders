@@ -38,6 +38,8 @@ public class GameCanvas extends JPanel {
     private void setupCharacter() {
         GameObjectManager.instance.add(new Background());
         GameObjectManager.instance.add(new CreateStar());
+//        CreateStar createStar = GameObjectManager.instance.recycle(CreateStar.class);
+//        createStar.configAction();
         GameObjectManager.instance.add(new CreatEnemy());
         GameObjectManager.instance.add(new EffectShield());
         GameObjectManager.instance.add(new EffectTripShoot());

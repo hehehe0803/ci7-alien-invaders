@@ -13,8 +13,10 @@ public class GameObjectManager {
 
     public static GameObjectManager instance = new GameObjectManager();
 
-    private ArrayList<GameObject> list = new ArrayList<>();
-    private ArrayList<GameObject> tempList = new ArrayList<>();
+    public ArrayList<GameObject> list = new ArrayList<>();
+    public ArrayList<GameObject> tempList = new ArrayList<>();
+
+    public Enemy enemyTail = new Enemy();
 
     private GameObjectManager() {
 //        this.list = new ArrayList<>();
@@ -49,6 +51,33 @@ public class GameObjectManager {
                 .orElse(null);
     }
 
+    public Enemy findEnemyFrist(int genitiveRow){
+        return (Enemy) GameObjectManager.instance.list
+                .stream()
+                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> gameObject.isAlive)
+                .filter(gameObject -> ((Enemy) gameObject).genitiveRow == genitiveRow)
+                .findFirst()
+                .orElse(null);
+    }
+    public Enemy findEnemyTail(int genitiveRow){
+        GameObjectManager.instance.list
+                .stream()
+                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> gameObject.isAlive)
+                .filter(gameObject -> ((Enemy) gameObject).genitiveRow == genitiveRow)
+                .forEach(gameObject -> this.enemyTail.set((Enemy) gameObject));
+        return this.enemyTail;
+    }
+
+    public void setVelocityEnemy(Vector2D vector2D, int genitiveRow){
+        GameObjectManager.instance.list
+                .stream()
+                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> gameObject.isAlive)
+                .filter(gameObject -> ((Enemy) gameObject).genitiveRow == genitiveRow)
+                .forEach(gameObject -> ((Enemy) gameObject).velocity.set(vector2D));
+    }
     //Generic
 
     public Enemy checkCollision(BulletPlayer bulletPlayer) {
@@ -106,4 +135,5 @@ public class GameObjectManager {
             gameObject.isAlive = true;
 
     }
+
 }

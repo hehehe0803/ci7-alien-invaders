@@ -1,10 +1,8 @@
 package game.enemy;
 
 import base.GameObject;
-import base.GameObjectManager;
 import base.Vector2D;
 import game.effect.CreatParticle;
-import game.player.Player;
 import physic.BoxCollider;
 import physic.PhysicBody;
 import renderer.ImageRenderer;
@@ -16,6 +14,7 @@ public class Enemy extends GameObject implements PhysicBody {
     public Vector2D velocity;
     public BoxCollider boxCollider;
     private CreatParticle creatParticle;
+    public int genitiveRow;
 
     public Enemy() {
         this.velocity = new Vector2D();
@@ -23,6 +22,15 @@ public class Enemy extends GameObject implements PhysicBody {
         this.boxCollider = new BoxCollider(20, 20);
         this.creatParticle = new CreatParticle();
 
+
+    }
+    public Enemy set(Enemy enemy){
+        this.position = enemy.position;
+//        this.velocity = enemy.velocity;
+//        this.renderer = enemy.renderer;
+//        this.boxCollider = enemy.boxCollider;
+//        this.creatParticle = enemy.creatParticle;
+        return this;
     }
 
     @Override
