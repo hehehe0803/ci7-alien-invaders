@@ -19,9 +19,10 @@ public class CreatEnemy extends GameObject {
     private int countRow1 = 500;
     private int countRow11 = 500;
 
-    private static final Vector2D velocitySubX = new Vector2D(-0.1f,0.0f);
-    private static final Vector2D velocityAddX = new Vector2D(0.1f,0.0f);
-    private static final Vector2D velocityAddY = new Vector2D(0.0f,0.1f);
+    private static final Vector2D velocitySubX = new Vector2D(-0.1f, 0.0f);
+    private static final Vector2D velocityAddX = new Vector2D(0.1f, 0.0f);
+    private static final Vector2D velocityAddY = new Vector2D(0.0f, 0.1f);
+
     public CreatEnemy() {
         this.frameCounter = new FrameCounter(900);
         this.random = new Random();
@@ -31,17 +32,21 @@ public class CreatEnemy extends GameObject {
 
     }
 
-    public void creat(){
-        for (int row = 0; row < this.rows; row++ ){
-            for (int col = 0; col < this.cols; col++){
+    public void creat() {
+        for (int row = 0; row < this.rows; row++) {
+            for (int col = 0; col < this.cols; col++) {
                 Enemy enemy = GameObjectManager.instance.recycle(Enemy.class);
-                enemy.position.set(100 + col * (((ImageRenderer)enemy.renderer).width + 20), ((ImageRenderer)enemy.renderer).height + row * 50);
-                enemy.velocity.set(velocitySubX);
+                enemy.position.set(100 + col * (((ImageRenderer) enemy.renderer).width + 20), ((ImageRenderer) enemy.renderer).height + row * 50);
                 enemy.genitiveRow = row;
-               // GameObjectManager.instance.add(enemy);
+                if (row == 0 || row == 2) {
+                    enemy.velocity.set(velocitySubX);
+                } else {
+                    enemy.velocity.set(velocityAddX);
+                }
             }
         }
     }
+
     @Override
     public void run() {
         super.run();
@@ -52,53 +57,50 @@ public class CreatEnemy extends GameObject {
 
     }
 
-    public void move(int genitiveRow){
+    public void move(int genitiveRow) {
         Enemy enemy = GameObjectManager.instance.findEnemyFrist(genitiveRow);
         Enemy enemyAny = GameObjectManager.instance.findEnemyTail(genitiveRow);
-        if (genitiveRow == 0 || genitiveRow == 2){
-            if (enemy != null){
-                if (enemy.position.x - 20 < 0 && countRow0 > 0){
+        if (genitiveRow == 0 || genitiveRow == 2) {
+            if (enemy != null) {
+                if (enemy.position.x - 20 < 0 && countRow0 > 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddY, genitiveRow);
                     countRow0 -= 1;
                     countRow01 = 500;
                 }
-                if (countRow0 == 0){
+                if (countRow0 == 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddX, genitiveRow);
                 }
             }
-
-            if (enemyAny != null){
-                if (enemyAny.position.x + 30 > 1024 && countRow01 > 0){
+            if (enemyAny != null) {
+                if (enemyAny.position.x + 30 > 1024 && countRow01 > 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddY, genitiveRow);
                     countRow01 -= 1;
                     countRow0 = 500;
                 }
-                if (countRow01 == 0){
+                if (countRow01 == 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocitySubX, genitiveRow);
                 }
             }
         }
 
-        if (genitiveRow == 1 || genitiveRow == 3){
-            GameObjectManager.instance.setVelocityEnemy(velocityAddX, genitiveRow);
-            if (enemy != null){
-                if (enemy.position.x - 20 < 0 && countRow1 > 0){
+        if (genitiveRow == 1 || genitiveRow == 3) {
+            if (enemy != null) {
+                if (enemy.position.x - 20 < 0 && countRow1 > 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddY, genitiveRow);
                     countRow1 -= 1;
                     countRow11 = 500;
                 }
-                if (countRow1 == 0){
+                if (countRow1 == 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddX, genitiveRow);
                 }
             }
-
-            if (enemyAny != null){
-                if (enemyAny.position.x + 30 > 1024 && countRow11 > 0){
+            if (enemyAny != null) {
+                if (enemyAny.position.x + 30 > 1024 && countRow11 > 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocityAddY, genitiveRow);
                     countRow11 -= 1;
                     countRow1 = 500;
                 }
-                if (countRow11 == 0){
+                if (countRow11 == 0) {
                     GameObjectManager.instance.setVelocityEnemy(velocitySubX, genitiveRow);
                 }
             }

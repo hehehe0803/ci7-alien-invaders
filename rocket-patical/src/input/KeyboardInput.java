@@ -1,5 +1,8 @@
 package input;
 
+import scene.GamePlayLevel1Scene;
+import scene.SceneManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -39,6 +42,9 @@ public class KeyboardInput implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             this.isDown = true;
+        }
+        if(e.getKeyCode()== KeyEvent.VK_ENTER){
+            SceneManager.instance.changeScene(new GamePlayLevel1Scene());
         }
     }
 

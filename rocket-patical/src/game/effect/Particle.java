@@ -11,7 +11,6 @@ public class Particle extends GameObject {
 
     public Particle(){
         this.velocity = new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/Blue-Star-3.png", 10, 10);
         this.frameCounter = new FrameCounter(5);
     }
 
@@ -19,15 +18,13 @@ public class Particle extends GameObject {
     public void run() {
         super.run();
         this.position.addUp(this.velocity);
-        if (this.frameCounter.run()){
-            ((ImageRenderer)this.renderer).width -= 1;
-            ((ImageRenderer)this.renderer).height -= 1;
+        if (this.frameCounter.run()) {
+            ((ImageRenderer) this.renderer).width -= 2;
+            ((ImageRenderer) this.renderer).height -= 2;
             this.frameCounter.reset();
         }
-        if (((ImageRenderer)this.renderer).width <= 0){
+        if (((ImageRenderer) this.renderer).width < 0){
             this.isAlive = false;
-            ((ImageRenderer)this.renderer).width = 10;
-            ((ImageRenderer)this.renderer).height = 10;
         }
     }
 }

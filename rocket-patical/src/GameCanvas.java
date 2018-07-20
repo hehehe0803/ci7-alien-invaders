@@ -4,9 +4,14 @@ import game.background.Background;
 import game.effect.EffectShield;
 import game.effect.EffectTripShoot;
 import game.enemy.CreatEnemy;
+import game.enemy.CreatEnemyLevel2;
+import game.enemy.CreatEnemyLevel3;
 import game.enemy.Enemy;
 import game.star.CreateStar;
 import game.player.Player;
+import scene.GamePlayScene;
+import scene.SceneManager;
+import scene.StartScene;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +22,7 @@ public class GameCanvas extends JPanel {
     BufferedImage backBuffered;
     Graphics graphics;
 
-    public Player player = new Player();
+    //public Player player = new Player();
 
     public GameCanvas() {
 
@@ -25,9 +30,10 @@ public class GameCanvas extends JPanel {
 
         this.setupBackBuffered();
 
-        this.setupCharacter();
+        //this.setupCharacter();
 
         this.setVisible(true);
+        SceneManager.instance.changeScene(new StartScene());
     }
 
     private void setupBackBuffered() {
@@ -35,24 +41,23 @@ public class GameCanvas extends JPanel {
         this.graphics = this.backBuffered.getGraphics();
     }
 
-    private void setupCharacter() {
-        GameObjectManager.instance.add(new Background());
-        GameObjectManager.instance.add(new CreateStar());
-//        CreateStar createStar = GameObjectManager.instance.recycle(CreateStar.class);
-//        createStar.configAction();
-        GameObjectManager.instance.add(new CreatEnemy());
-        GameObjectManager.instance.add(new EffectShield());
-        GameObjectManager.instance.add(new EffectTripShoot());
+//    private void setupCharacter() {
+//        GameObjectManager.instance.add(new Background());
+//        GameObjectManager.instance.add(new CreateStar());
+//
+//        GameObjectManager.instance.add(new CreatEnemyLevel3());
+//        GameObjectManager.instance.add(new EffectShield());
+//        GameObjectManager.instance.add(new EffectTripShoot());
+//
+//        this.setupPlayer();
+//
+//    }
 
-        this.setupPlayer();
-
-    }
-
-    private void setupPlayer() {
-        Player player = new Player();
-        player.position.set(504, 550);
-        GameObjectManager.instance.add(player);
-    }
+//    private void setupPlayer() {
+//        Player player = new Player();
+//        player.position.set(504, 550);
+//        GameObjectManager.instance.add(player);
+//    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -66,6 +71,7 @@ public class GameCanvas extends JPanel {
 
     public void runAll() {
         GameObjectManager.instance.runAll();
+        SceneManager.instance.performChangeSceneIfNeeded();
     }
 
 }

@@ -3,9 +3,9 @@ package game.player;
 import base.GameObject;
 import base.Vector2D;
 import game.effect.CreatParticle;
+import game.effect.CreatParticlePlay;
 import game.effect.EffectShield;
 import game.effect.EffectTripShoot;
-import game.enemy.BulletEnemy;
 import game.enemy.Enemy;
 import physic.BoxCollider;
 import physic.PhysicBody;
@@ -20,6 +20,7 @@ public class Player extends GameObject implements PhysicBody {
 
     public RunHitObject runHitObject;
     public CreatParticle creatParticle;
+    public CreatParticlePlay creatParticlePlay;
 
     public Player() {
         this.renderer = new PolygonRenderer(
@@ -34,6 +35,7 @@ public class Player extends GameObject implements PhysicBody {
         this.boxCollider = new BoxCollider(20, 16);
         this.runHitObject = new RunHitObject(Enemy.class, EffectShield.class, EffectTripShoot.class);
         this.creatParticle = new CreatParticle();
+        this.creatParticlePlay = new CreatParticlePlay();
     }
 
     @Override
@@ -41,6 +43,7 @@ public class Player extends GameObject implements PhysicBody {
         super.run();
         this.boxCollider.position.set(this.position.x - 10, this.position.y - 8);
         this.runHitObject.run(this);
+        this.creatParticlePlay.run(this);
 
     }
 
