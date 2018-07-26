@@ -3,12 +3,16 @@ package game.player;
 import base.GameObject;
 import base.GameObjectManager;
 import base.Vector2D;
+import game.enemy.Boss;
+import game.enemy.BulletBoss;
 import game.enemy.BulletEnemy;
 import game.enemy.Enemy;
 import physic.BoxCollider;
 import physic.PhysicBody;
 import physic.RunHitObject;
 import renderer.ImageRenderer;
+
+import java.awt.*;
 
 public class BulletPlayer extends GameObject implements PhysicBody {
 
@@ -19,10 +23,12 @@ public class BulletPlayer extends GameObject implements PhysicBody {
     public BulletPlayer() {
         this.velocity = new Vector2D();
         this.renderer = new ImageRenderer("resources/images/bullet.png", 24, 24);
-        this.boxCollider = new BoxCollider(8, 8);
+        this.boxCollider = new BoxCollider(24, 24);
+
         this.runHitObject = new RunHitObject(
                 Enemy.class,
-                BulletEnemy.class
+                BulletBoss.class,
+                Boss.class
         );
     }
 
@@ -37,6 +43,7 @@ public class BulletPlayer extends GameObject implements PhysicBody {
 
     @Override
     public void getHit(GameObject gameObject) {
+        if (gameObject instanceof Enemy || gameObject instanceof BulletBoss || gameObject instanceof Boss)
             this.isAlive = false;
 
     }

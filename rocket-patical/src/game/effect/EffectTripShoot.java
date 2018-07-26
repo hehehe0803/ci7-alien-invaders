@@ -2,6 +2,7 @@ package game.effect;
 
 import base.FrameCounter;
 import base.GameObject;
+import base.GameObjectManager;
 import base.Vector2D;
 import game.player.Player;
 import physic.BoxCollider;
@@ -17,6 +18,7 @@ public class EffectTripShoot extends GameObject implements PhysicBody {
     private FrameCounter frameCounter;
     public Vector2D velocity;
     public static boolean chonceTripShoot = false;
+    public static FrameCounter timeLifeTripShoot = new FrameCounter(20);
 
     public EffectTripShoot() {
         this.boxCollider = new BoxCollider(30, 30);
@@ -31,6 +33,8 @@ public class EffectTripShoot extends GameObject implements PhysicBody {
         super.run();
         this.position.addUp(this.velocity);
         this.boxCollider.position.set(this.position.x - 20, this.position.y - 20);
+        GameObjectManager.instance.objectExitDisplay(this);
+
     }
 
     @Override
@@ -43,6 +47,7 @@ public class EffectTripShoot extends GameObject implements PhysicBody {
         if (gameObject instanceof Player) {
             this.isAlive = false;
             this.chonceTripShoot = true;
+            EffectTripShoot.timeLifeTripShoot = new FrameCounter(20);
         }
     }
 }

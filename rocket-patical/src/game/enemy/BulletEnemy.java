@@ -9,6 +9,8 @@ import physic.PhysicBody;
 import physic.RunHitObject;
 import renderer.ImageRenderer;
 
+import java.awt.*;
+
 public class BulletEnemy extends GameObject implements PhysicBody {
 
     public Vector2D velocity;
@@ -17,7 +19,7 @@ public class BulletEnemy extends GameObject implements PhysicBody {
 
     public BulletEnemy() {
         this.velocity = new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/bullet.png", 24, 24);
+        this.renderer = new ImageRenderer("resources/images/virus_PNG4.png", 12, 12, Color.green);
         this.boxCollider = new BoxCollider(8, 8);
         this.runHitObject = new RunHitObject(
                 Player.class
@@ -28,7 +30,7 @@ public class BulletEnemy extends GameObject implements PhysicBody {
     public void run() {
         super.run();
         this.position.addUp(this.velocity);
-        this.boxCollider.position.set(this.position.x - 12, this.position.y - 12);
+        this.boxCollider.position.set(this.position.x - 6, this.position.y - 6);
         this.runHitObject.run(this);
         GameObjectManager.instance.objectExitDisplay(this);
     }
@@ -40,6 +42,9 @@ public class BulletEnemy extends GameObject implements PhysicBody {
 
     @Override
     public void getHit(GameObject gameObject) {
-            this.isAlive = false;
+         if (gameObject instanceof Player){
+             this.isAlive = false;
+         }
+
     }
 }

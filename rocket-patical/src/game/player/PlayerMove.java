@@ -7,7 +7,6 @@ import input.KeyboardInput;
 import java.util.Random;
 
 public class PlayerMove implements GameObjectAttributes<Player> {
-    private Random random = new Random();
 
     public PlayerMove() {
 

@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class TextRenderer implements Renderer {
-    private String text;
+    public String text;
     private Font font;
     private Color color;
 

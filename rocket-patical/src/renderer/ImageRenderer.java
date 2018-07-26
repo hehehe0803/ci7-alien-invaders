@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ImageRenderer implements Renderer {
 
-    private BufferedImage image;
+    public BufferedImage image;
     public int width;
     public int height;
 

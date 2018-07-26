@@ -30,6 +30,7 @@ public class EffectShield extends GameObject implements PhysicBody {
         super.run();
         this.position.addUp(this.velocity);
         this.boxCollider.position.set(this.position.x - 15, this.position.y - 15);
+        GameObjectManager.instance.objectExitDisplay(this);
 
     }
 
@@ -42,6 +43,6 @@ public class EffectShield extends GameObject implements PhysicBody {
     public void getHit(GameObject gameObject) {
         if (gameObject instanceof Player)
             this.isAlive = false;
-            GameObjectManager.instance.add(new Shield());
+            Player.life += 1;
     }
 }

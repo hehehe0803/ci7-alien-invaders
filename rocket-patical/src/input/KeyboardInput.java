@@ -1,7 +1,13 @@
 package input;
 
-import scene.GamePlayLevel1Scene;
+import game.enemy.CreatEnemyLevel2;
+import game.enemy.CreatEnemyLevel3;
+import scene.WinScene;
+import scene.scene.level.SceneLevel1;
 import scene.SceneManager;
+import scene.scene.level.SceneLevel2;
+import scene.scene.level.SceneLevel3;
+import scene.scene.level.SceneLevelBoss;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,6 +21,7 @@ public class KeyboardInput implements KeyListener {
     public boolean isUp = false;
     public boolean isDown = false;
     public boolean isSpace = false;
+    public static boolean isEnter = true;
 
     private KeyboardInput() {
 
@@ -44,7 +51,19 @@ public class KeyboardInput implements KeyListener {
             this.isDown = true;
         }
         if(e.getKeyCode()== KeyEvent.VK_ENTER){
-            SceneManager.instance.changeScene(new GamePlayLevel1Scene());
+            if (KeyboardInput.isEnter){
+                SceneManager.instance.changeScene(new SceneLevel1());
+                KeyboardInput.isEnter = false;
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_X) {
+            SceneManager.instance.changeScene(new SceneLevel2());
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            SceneManager.instance.changeScene(new SceneLevel3());
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            SceneManager.instance.changeScene(new SceneLevelBoss());
         }
     }
 

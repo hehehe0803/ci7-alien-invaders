@@ -5,6 +5,8 @@ import game.player.BulletPlayer;
 import game.player.Player;
 import physic.BoxCollider;
 import physic.PhysicBody;
+import scene.OverScene;
+import scene.SceneManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,13 +15,15 @@ public class GameObjectManager {
 
     public static GameObjectManager instance = new GameObjectManager();
 
-    public ArrayList<GameObject> list = new ArrayList<>();
-    public ArrayList<GameObject> tempList = new ArrayList<>();
+    public ArrayList<GameObject> list;
+    public ArrayList<GameObject> tempList;
 
     public Enemy enemyTail = new Enemy();
 
     private GameObjectManager() {
-//        this.list = new ArrayList<>();
+        this.list = new ArrayList<>();
+        this.tempList = new ArrayList<>();
+
     }
 
     public void add(GameObject gameObject) {
@@ -51,7 +55,7 @@ public class GameObjectManager {
                 .orElse(null);
     }
 
-    public Enemy findEnemyFrist(int genitiveRow){
+    public Enemy findEnemyFrist(int genitiveRow) {
         return (Enemy) GameObjectManager.instance.list
                 .stream()
                 .filter(gameObject -> gameObject instanceof Enemy)
@@ -60,17 +64,27 @@ public class GameObjectManager {
                 .findFirst()
                 .orElse(null);
     }
-    public Enemy findEnemyTail(int genitiveRow){
+
+    public Enemy findEnemyTail(int genitiveRow) {
         GameObjectManager.instance.list
                 .stream()
                 .filter(gameObject -> gameObject instanceof Enemy)
                 .filter(gameObject -> gameObject.isAlive)
                 .filter(gameObject -> ((Enemy) gameObject).genitiveRow == genitiveRow)
-                .forEach(gameObject -> this.enemyTail.set((Enemy) gameObject));
+                .forEach(gameObject -> this.enemyTail = (Enemy) gameObject);
         return this.enemyTail;
     }
 
-    public void setVelocityEnemy(Vector2D vector2D, int genitiveRow){
+    public Enemy findEnemyTail() {
+        GameObjectManager.instance.list
+                .stream()
+                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> gameObject.isAlive)
+                .forEach(gameObject -> this.enemyTail = (Enemy) gameObject);
+        return this.enemyTail;
+    }
+
+    public void setVelocityEnemy(Vector2D vector2D, int genitiveRow) {
         GameObjectManager.instance.list
                 .stream()
                 .filter(gameObject -> gameObject instanceof Enemy)
@@ -78,7 +92,6 @@ public class GameObjectManager {
                 .filter(gameObject -> ((Enemy) gameObject).genitiveRow == genitiveRow)
                 .forEach(gameObject -> ((Enemy) gameObject).velocity.set(vector2D));
     }
-    //Generic
 
     public Enemy checkCollision(BulletPlayer bulletPlayer) {
         return (Enemy) this.list
@@ -134,6 +147,19 @@ public class GameObjectManager {
                 || gameObject.position.y < 0 || gameObject.position.y > 600)
             gameObject.isAlive = true;
 
+    }
+
+    public void checkGameOver() {
+        this.list
+                .stream()
+                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> gameObject.isAlive)
+                .forEach(gameObject -> {
+                    if (gameObject.position.y + 20 >= 600) {
+                        SceneManager.instance.changeScene(new OverScene());
+                        return;
+                    }
+                });
     }
 
     public void clear() {

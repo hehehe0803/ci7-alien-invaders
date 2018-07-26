@@ -1,10 +1,12 @@
 package game.enemy;
 
 import base.GameObject;
+import base.GameObjectManager;
 import base.Vector2D;
 import game.effect.CreatParticle;
 import game.player.BulletPlayer;
 import game.player.Player;
+import game.score.Score;
 import physic.BoxCollider;
 import physic.PhysicBody;
 import physic.RunHitObject;
@@ -13,6 +15,7 @@ import utils.Utils;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.util.Random;
 
 public class Enemy extends GameObject implements PhysicBody {
 
@@ -21,6 +24,9 @@ public class Enemy extends GameObject implements PhysicBody {
     private CreatParticle creatParticle;
     public int genitiveRow;
     public RunHitObject runHitObject;
+
+    public int enemyShootIsHere;
+    private Random random;
 
     private Clip clip;
 
@@ -31,19 +37,16 @@ public class Enemy extends GameObject implements PhysicBody {
         this.creatParticle = new CreatParticle();
         this.runHitObject = new RunHitObject(Player.class, BulletPlayer.class);
         this.clip = Utils.loadAudio("resources/audio/Boom.wav");
+        this.random = new Random();
+        this.enemyShootIsHere = random.nextInt(4);
     }
-
-    public Enemy set(Enemy enemy) {
-        this.position = enemy.position;
-        return this;
-    }
-
     @Override
     public void run() {
         super.run();
         this.position.addUp(this.velocity);
         this.boxCollider.position.set(this.position.x - 10, this.position.y - 10);
         this.runHitObject.run(this);
+        GameObjectManager.instance.checkGameOver();
     }
 
     @Override
@@ -56,8 +59,12 @@ public class Enemy extends GameObject implements PhysicBody {
         if (gameObject instanceof Player || gameObject instanceof BulletPlayer) {
             this.isAlive = false;
             this.creatParticle.run(this);
-            this.clip.loop(1);
-            this.clip.start();
+           // this.clip.loop(1);
+          //  this.clip.start();
+            CreatEnemy.numFly -= 1;
+            CreatEnemyLevel2.numFlyLevel2 -= 1;
+            CreatEnemyLevel3.numFlyLevel3 -= 1;
+            Score.instance.score += 10;
         }
     }
 
